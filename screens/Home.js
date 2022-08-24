@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import MoviePreview from "../components/MoviePreview";
 
@@ -28,16 +29,32 @@ const Home = ({ navigation }) => {
     handleFetchMovies();
   }, [page]);
 
+  const updatePage = (direction) => {
+    if (direction === "Prev") {
+      if (page === 1) {
+        Alert.alert("min page number reached");
+        return;
+      }
+      setPage((page) => page - 1);
+    } else {
+      if (page === 10) {
+        Alert.alert("max page number reached");
+        return;
+      }
+      setPage((page) => page + 1);
+    }
+  };
+
   return (
     <>
       <View style={styles.pagination}>
-        <TouchableOpacity onPress={() => setPage((page) => page - 1)}>
+        <TouchableOpacity onPress={() => updatePage("Prev")}>
           <Text style={[styles.buttonText, styles.button]}>Prev</Text>
         </TouchableOpacity>
 
         <Text style={styles.buttonText}>{page}</Text>
 
-        <TouchableOpacity onPress={() => setPage((page) => page + 1)}>
+        <TouchableOpacity onPress={() => updatePage("Next")}>
           <Text style={[styles.buttonText, styles.button]}>Next</Text>
         </TouchableOpacity>
       </View>
