@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import Home from "./screens/Home";
+import { createStackNavigator } from "@react-navigation/stack";
+import MovieDetails from "./screens/MovieDetails";
+import MoviePreview from "./components/MoviePreview";
 
-export default function App() {
+const RootStack = createStackNavigator();
+const MainStack = createStackNavigator();
+
+const MainStackScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainStack.Navigator>
+      <MainStack.Screen name="Home" component={Home} />
+      <MainStack.Screen
+        name="MoviePreview"
+        component={MoviePreview}
+        options={({ route }) => ({ title: route.params.Title })}
+      />
+    </MainStack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootStack.Navigator screenOptions={{ presentation: "modal" }}>
+        <RootStack.Screen
+          name="Main"
+          component={MainStackScreen}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen name="MovieDetails" component={MovieDetails} />
+      </RootStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
