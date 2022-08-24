@@ -31,7 +31,12 @@ const App = () => {
           component={MainStackScreen}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen name="MovieDetails" component={MovieDetails} />
+
+        <MainStack.Screen
+          name="MovieDetails"
+          component={MovieDetails}
+          options={({ route }) => ({ title: route.params.Title })}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

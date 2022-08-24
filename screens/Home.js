@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import MoviePreview from "../components/MoviePreview";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const [moviesData, setMoviesData] = useState();
   const [page, setPage] = useState(1);
 
@@ -48,7 +48,7 @@ const Home = () => {
         keyExtractor={(item) => item.imdbID}
         renderItem={({ item }) => (
           <MoviePreview
-            onPress={() => navigation.push("MoviePreview", item)}
+            onPress={() => navigation.push("MovieDetails", item)}
             movie={item}
           />
         )}
