@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,10 +6,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  RefreshControl,
 } from "react-native";
 import MoviePreview from "../components/MoviePreview";
 
 const Home = ({ navigation }) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [moviesData, setMoviesData] = useState();
   const [page, setPage] = useState(1);
 
@@ -45,6 +47,16 @@ const Home = ({ navigation }) => {
     }
   };
 
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await handleFetchMovies();
+    setIsRefreshing(false);
+  });
+
+  setTimeout(() => {
+    setIsRefreshing(false);
+  }, 1000);
+
   return (
     <>
       <View style={styles.pagination}>
@@ -69,9 +81,9 @@ const Home = ({ navigation }) => {
             movie={item}
           />
         )}
-        //   refreshControl={
-        //     <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
-        //   }
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
+        }
       />
     </>
   );
